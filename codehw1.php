@@ -5,6 +5,8 @@
 <?php
 
 echo "Challenge 1";
+echo "<br />";
+
 
 $change = 90;
 $value_of_dollar = 100;
@@ -12,6 +14,9 @@ $value_of_quarters = 25;
 $value_of_nickel = 5;
 $value_of_cents = 1;
 
+
+echo "Total change is $change";
+echo "<br />";
 
 $number_of_dollars = intdiv ($change, $value_of_dollar);
 
@@ -83,13 +88,16 @@ else {
 	
 $remainder_of_dollars = $change % $value_of_dollar;
 echo "<br />";
-
+echo "<br />";
+echo "<br />";
 
 
 
 
 
 echo "Challenge 2";
+echo "<br />";
+echo "<br />";
 
 For ($x=99; $x >= 0; $x--) {
 
