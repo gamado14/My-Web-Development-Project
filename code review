@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="view_collection" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<?php 
+include_once 'header.php';
+require_once 'login.php';
+require_once 'search.php';
+?>
+
+<?php
+
+# First, I need to connect to mysql using my credentials from the login.php file
+$conn = new mysqli($hn, $un, $pw, $db);
+if ($conn->connect_error) die($conn->connect_error);
+
+# Second, I create a query so the user can view his collection
+$query = $sql = "SELECT * FROM `user` NATURAL JOIN collection NATURAL JOIN collection_item NATURAL JOIN art NATURAL JOIN content NATURAL JOIN asset WHERE `user_id`=1";
+
+# Then, I run the query, making sure I receive the results back
+$result = $conn->query($query);
+if (!$result) die($conn->error);
+
+# Then, I need to determine the number of rows returned so I can loop through them
+$rows = $result->num_rows;
+
+# Here, I get and print out each row returned from the database
+while ($row = $result->fetch_assoc()) {
+	# art table
+	echo 
+	$row["collection_name"]." ".$row["title"]." ".$row["artist_name"]." ".$row["date_created"]." ";
+	# content and asset table
+	echo $row["theme"]." ".$row["asset_type"]."<br>";
+}
+?>
+
+<h1>My Learning Room</h1>
+<?php 
+<div style="text-align:center">
+  <h2>$collection_name<</h2>
+</div>
+
+# The four columns for the four images of the collection
+<div class="row">
+  <div class="column">
+    <img src="img_Van_Gogh.jpg" alt="Irises" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="img_frida_2.jpg" alt="Autorretrato" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="img_frida.jpg" alt="Autorretrato" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="img_rousseau.jpg" alt="Jungle" style="width:100%" onclick="myFunction(this);">
+  </div>
+</div>
+
+<div class="container">
+  <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+  <img id="expandedImg" style="width:100%">
+  <div id="imgtext"></div>
+</div>
+
+<script>
+function myFunction(imgs) {
+  var expandImg = document.getElementById("expandedImg");
+  var imgText = document.getElementById("imgtext");
+  expandImg.src = imgs.src;
+  imgText.innerHTML = imgs.alt;
+  expandImg.parentElement.style.display = "block";
+}
+</script>
+
+# Also, I need a button to click on and open a file to read, listen, or watch
+<h2>Digital Resources</h2>
+
+<button class="btn success">Pdf</button>
+<button class="btn info">Video</button>
+<button class="btn warning">Audio</button>
+<button class="btn danger">Image</button>
+
+# close the database connection
+$result->close();
+$conn->close();
+?>
+
+</body>
+</html>
+<?php include_once 'footer.php'; ?>
