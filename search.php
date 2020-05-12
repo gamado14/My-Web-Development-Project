@@ -28,7 +28,7 @@ if (isset($_GET['submit'])) {
 	} else {
 		$conn = new mysqli($hn, $un, $pw, $db);
 		if ($conn->connect_error) die($conn->connect_error);
-		#$name = sanitizeMySQL($conn, $_GET['artist_name']);
+		$name = sanitizeMySQL($conn, $_GET['artist_name']);
 		$query = "SELECT * FROM art WHERE artist_name LIKE '%$artist_name%'";
 			$result = $conn->query($query);
 		if (!$result) {
